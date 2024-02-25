@@ -2,6 +2,7 @@ package services;
 
 import entities.Filme;
 
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Scanner;
 
@@ -65,7 +66,7 @@ public class FilmeManipulador {
         }
 
         while (true) {
-            System.out.print("Digite o número do ator a editar: ");
+            System.out.print("Digite o número do filme a editar: ");
 
             int numero = listarELerOpcao(filmes);
             if (numero == 0) {
@@ -104,7 +105,7 @@ public class FilmeManipulador {
 
             System.out.print("> ");
             char opcao = sc.nextLine().charAt(0);
-            sc.nextLine();
+
 
             switch (opcao) {
                 case '1':
@@ -190,27 +191,50 @@ public class FilmeManipulador {
     }
 
     private void editarNome(Filme filme) {
+        System.out.println("Tecle enter sem digitar nada para sair.");
         System.out.print("Insira o novo nome: ");
         String novoNome = sc.nextLine();
+
+        if (novoNome.isBlank()) {
+            return;
+        }
         filme.setNome(novoNome);
     }
 
     private void editarDataLancamento(Filme filme) {
+        System.out.println("Tecle enter sem digitar nada para sair.");
         System.out.print("Insira a nova data de lançamento: ");
         String novaDataLancamento = sc.nextLine();
+
+        if (novaDataLancamento.isBlank()) {
+            return;
+        }
         filme.setDataLancamento(novaDataLancamento);
     }
 
     private void editarOrcamento(Filme filme) {
         System.out.print("Insira o novo orçamento: ");
-        double novoOrcamento = sc.nextDouble();
-        sc.nextLine(); // Limpar o buffer do Scanner
-        filme.setOrcamento(novoOrcamento);
+        String novoOrcamentoSt = sc.nextLine();
+
+        if (novoOrcamentoSt.isBlank()) {
+            return;
+        }
+        try {
+            double novoOrcamento = Double.parseDouble(novoOrcamentoSt);
+            filme.setOrcamento(novoOrcamento);
+        } catch (NumberFormatException e) {
+            System.out.println("Formato de orçamento invalido. Por favor, insira um numero valido");
+            editarOrcamento(filme);
+        }
     }
 
     private void editarDescricao(Filme filme) {
+        System.out.println("Tecle enter sem digitar nada para sair.");
         System.out.print("Insira a nova descrição: ");
         String novaDescricao = sc.nextLine();
+        if (novaDescricao.isBlank()) {
+            return;
+        }
         filme.setDescricao(novaDescricao);
     }
 
